@@ -13,6 +13,104 @@
 
 // Functions
 
+int bucket_entry_monitor ( struct bucket_structure *entry ) {
+
+    // Check input
+
+    if ( entry == NULL ) return bucket_error ( "Entry not valid" );
+
+    // Open entry bucket
+
+    DIR *bucket_descriptor = opendir ( entry->bucket );
+    if ( bucket_descriptor == NULL ) return bucket_error ( "Bucket opening" );
+
+    // Initialize bucket structure
+
+    struct bucket_file_structure *last;
+    free ( entry->files );
+
+    // Monitor entry bucket
+
+    struct dirent *bucket_file;
+
+    while ( ( bucket_file = readdir ( bucket_descriptor ) ) != NULL ) {
+
+        // Filter on regular files
+
+        if ( bucket_file->d_type == DT_REG ) {
+
+            // Prepare file
+
+            struct bucket_file_structure *file = calloc ( BUCKET_MEMORY_SIZE_MIN, sizeof ( struct bucket_file_structure ) );
+            if ( file == NULL ) return bucket_error ( "Memory allocation" );
+
+            file->name = calloc ( strlen ( entry->bucket ) + strlen ( bucket_file->d_name ), sizeof ( char ) );
+            if ( file->name == NULL ) return bucket_error ( "Memory allocation" );
+
+            // Fill file
+
+            strcat ( file->name, entry->bucket );
+            strcat ( file->name, bucket_file->d_name );
+
+            file->next = NULL;
+
+            // Align files list
+
+            if ( entry->files == NULL ) {
+
+                // Update files head list
+
+                entry->files = file;
+                last = entry->files;
+            }
+
+            else {
+
+                // Update last file in list
+
+                last->next = file;
+                last = last->next;
+            }
+        }
+    }
+
+    // Close entry bucket
+
+    if ( closedir ( bucket_descriptor ) != 0 ) return bucket_error ( "Bucket closing" );
+
+    // Return status code
+
+    return BUCKET_CODE_SUCCESS;
+}
+
+void bucket_entry_representation ( struct bucket_structure entry ) {
+
+    // Print entry bucket information
+
+    printf ( "ENTRY BUCKET\n| - Name: %s\n| - Bucket %s\n| - Pattern: %s\n\n", entry.name, entry.pattern, entry.bucket );
+
+    // Loop on entry bucket files
+
+    struct bucket_file_structure *file = entry.files;
+
+    printf ( "ENTRY BUCKET FILES\n" );
+
+    while ( file != NULL ) {
+
+        // Print current file
+
+        printf ( "| - Name: %s\n", file->name );
+
+        // Move to next file
+
+        file = file->next;
+    }
+
+    // Return
+
+    return;
+}
+
 int bucket_error ( char *message ) {
 
     // Check message

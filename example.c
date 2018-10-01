@@ -1,7 +1,7 @@
 /*
 
- * main.c
- * Prepare environment and execute application.
+ * example.c
+ * Prepare environment and execute application as example.
  *
  * inedito
 
@@ -12,8 +12,8 @@
 #include <stdio.h>
 #include <unistd.h>
 
-#include "header/bucket.h"
-#include "header/configuration.h"
+#include "src/header/bucket.h"
+#include "src/header/configuration.h"
 
 // Function
 
@@ -67,10 +67,37 @@ int main ( int argc, char **argv ) {
     status = configuration_validate ( &configuration );
     if ( status != 0 ) return status;
 
+    // Print configuration representation
+
+    configuration_representation ( &configuration );
+    printf ( "\n" );
+
     // Monitor bucket
 
-    while ( 1 )
+    for ( int i = 0; i < 10; i++ )
         if ( ( status = bucket_monitor ( configuration ) ) != 0 ) break;
+
+    if ( status != 0 ) return status;
+
+    // Prepare bucket structure
+
+    struct bucket_structure bucket;
+
+    bucket.bucket = configuration.entries [ 0 ].bucket;
+    bucket.name = configuration.entries [ 0 ].name;
+    bucket.pattern = configuration.entries [ 0 ].pattern;
+
+    bucket.files = NULL;
+
+    // Monitor selected entry bucket
+
+    status = bucket_entry_monitor ( &bucket );
+    if ( status != 0 ) return status;
+
+    // Print entry bucket representation
+
+    bucket_entry_representation ( bucket );
+    printf ( "\n" );
 
     // Return status code
 

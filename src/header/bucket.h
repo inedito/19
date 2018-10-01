@@ -32,7 +32,56 @@
 #define BUCKET_CODE_ERROR_NULL          -1002
 #define BUCKET_CODE_SUCCESS             0
 
+#define BUCKET_MEMORY_SIZE_MAX          128
+#define BUCKET_MEMORY_SIZE_MIN          1
+
+// Structures
+
+struct bucket_file_structure {
+
+    char *name;
+    struct bucket_file_structure *next;
+};
+
+struct bucket_structure {
+
+    char *bucket, *name, *pattern;
+    struct bucket_file_structure *files;
+};
+
 // Functions
+
+/*
+
+ * int bucket_entry_monitor ( struct bucket_structure * )
+ * Collect files in bucket entry.
+ *
+ * Input
+ * - struct bucket_structure * : bucket structure
+ *
+ * Output
+ * - int : code
+ *
+ * Possible values are:
+ * - BUCKET_CODE_ERROR_* : one of the available error code returned by "bucket_error" function
+ * - BUCKET_CODE_SUCCESS : function terminated with no error
+
+ */
+int bucket_entry_monitor ( struct bucket_structure * );
+
+/*
+
+ * void bucket_representation ( struct bucket_structure * )
+ * Print a bucket representation to STDOUT (standard output).
+ *
+ * Input
+ * - struct bucket_structure * : bucket structure
+ *
+ * Output
+ * None
+
+ */
+void bucket_entry_representation ( struct bucket_structure );
 
 /*
 
