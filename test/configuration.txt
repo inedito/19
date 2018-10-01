@@ -1,0 +1,5 @@
+bucket = /define/a/new/path/test/bucket/
+
+test1  = test_1_input_ , /define/a/new/path/test/test1/
+test2  = test_2_input_ , /define/a/new/path/test/test2/
+test3  = test_3_input_ , /define/a/new/path/test/test3/

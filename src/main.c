@@ -1,6 +1,6 @@
 /*
 
- * example.c
+ * main.c
  * Prepare environment and execute application as example.
  *
  * inedito
@@ -12,8 +12,8 @@
 #include <stdio.h>
 #include <unistd.h>
 
-#include "src/header/bucket.h"
-#include "src/header/configuration.h"
+#include "header/bucket.h"
+#include "header/configuration.h"
 
 // Function
 
