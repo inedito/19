@@ -79,24 +79,24 @@ int main ( int argc, char **argv ) {
 
     if ( status != 0 ) return status;
 
-    // Prepare bucket structure
+    // Prepare entry bucket structure
 
-    struct bucket_structure bucket;
+    struct bucket_structure entry;
 
-    bucket.bucket = configuration.entries [ 0 ].bucket;
-    bucket.name = configuration.entries [ 0 ].name;
-    bucket.pattern = configuration.entries [ 0 ].pattern;
+    entry.bucket = configuration.entries [ 0 ].bucket;
+    entry.name = configuration.entries [ 0 ].name;
+    entry.pattern = configuration.entries [ 0 ].pattern;
 
-    bucket.files = NULL;
+    entry.files = NULL;
 
-    // Monitor selected entry bucket
+    // Monitor entry bucket
 
-    status = bucket_entry_monitor ( &bucket );
+    status = bucket_entry_monitor ( &entry );
     if ( status != 0 ) return status;
 
     // Print entry bucket representation
 
-    bucket_entry_representation ( bucket );
+    bucket_entry_representation ( entry );
     printf ( "\n" );
 
     // Return status code
