@@ -54,7 +54,7 @@ struct bucket_structure {
 /*
 
  * int bucket_entry_monitor ( struct bucket_structure * )
- * Collect files in bucket entry.
+ * Collect files in entry bucket.
  *
  * Input
  * - struct bucket_structure * : bucket structure
@@ -72,7 +72,7 @@ int bucket_entry_monitor ( struct bucket_structure * );
 /*
 
  * void bucket_representation ( struct bucket_structure * )
- * Print a bucket representation to STDOUT (standard output).
+ * Print an entry bucket representation to STDOUT (standard output).
  *
  * Input
  * - struct bucket_structure * : bucket structure
